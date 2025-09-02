@@ -1,0 +1,836 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Detonación Metal Radio - Guatemala</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+
+        @import url('https://fonts.googleapis.com/css2?family=Metal+Mania&family=Special+Elite&display=swap');
+
+        
+
+        * {
+
+            margin: 0;
+
+            padding: 0;
+
+            box-sizing: border-box;
+
+        }
+
+        
+
+        body {
+
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
+
+            color: #e0e0e0;
+
+            font-family: 'Special Elite', cursive;
+
+            min-height: 100vh;
+
+            display: flex;
+
+            flex-direction: column;
+
+            align-items: center;
+
+            justify-content: center;
+
+            overflow-x: hidden;
+
+            padding: 20px;
+
+            position: relative;
+
+        }
+
+        
+
+        body::before {
+
+            content: "";
+
+            position: fixed;
+
+            top: 0;
+
+            left: 0;
+
+            width: 100%;
+
+            height: 100%;
+
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><rect fill="%23121212" width="100" height="100"/><path fill="%231a1a1a" d="M0,0 L100,100 M100,0 L0,100" stroke-width="0.5"/></svg>');
+
+            z-index: -1;
+
+        }
+
+        
+
+        .container {
+
+            max-width: 800px;
+
+            width: 100%;
+
+            text-align: center;
+
+            z-index: 1;
+
+        }
+
+        
+
+        .logo {
+
+            margin-bottom: 30px;
+
+            padding: 20px;
+
+            background: rgba(0, 0, 0, 0.7);
+
+            border: 2px solid #8b0000;
+
+            border-radius: 10px;
+
+            box-shadow: 0 0 20px rgba(139, 0, 0, 0.5);
+
+        }
+
+        
+
+        .logo img {
+
+            max-width: 100%;
+
+            height: auto;
+
+        }
+
+        
+
+        .logo h1 {
+
+            font-family: 'Metal Mania', cursive;
+
+            font-size: 3.5rem;
+
+            color: #8b0000;
+
+            text-shadow: 0 0 10px rgba(139, 0, 0, 0.7);
+
+            margin-top: 10px;
+
+            letter-spacing: 2px;
+
+        }
+
+        
+
+        .logo h2 {
+
+            font-size: 1.8rem;
+
+            color: #c0c0c0;
+
+            text-shadow: 0 0 5px rgba(192, 192, 192, 0.5);
+
+            margin-top: 5px;
+
+        }
+
+        
+
+        .player {
+
+            background: rgba(10, 10, 10, 0.9);
+
+            border: 2px solid #8b0000;
+
+            border-radius: 15px;
+
+            padding: 30px;
+
+            margin-bottom: 30px;
+
+            box-shadow: 0 0 25px rgba(139, 0, 0, 0.6);
+
+            position: relative;
+
+        }
+
+        
+
+        .player::before {
+
+            content: "";
+
+            position: absolute;
+
+            top: 5px;
+
+            left: 5px;
+
+            right: 5px;
+
+            bottom: 5px;
+
+            border: 1px solid #600;
+
+            border-radius: 12px;
+
+            pointer-events: none;
+
+        }
+
+        
+
+        .now-playing {
+
+            margin-bottom: 25px;
+
+        }
+
+        
+
+        .now-playing h3 {
+
+            font-size: 1.3rem;
+
+            color: #8b0000;
+
+            margin-bottom: 10px;
+
+            text-transform: uppercase;
+
+            letter-spacing: 1px;
+
+        }
+
+        
+
+        .track-info {
+
+            font-size: 1.5rem;
+
+            font-weight: bold;
+
+            color: #c0c0c0;
+
+            text-shadow: 0 0 5px rgba(192, 192, 192, 0.5);
+
+            margin-bottom: 5px;
+
+        }
+
+        
+
+        .artist {
+
+            font-size: 1.2rem;
+
+            color: #8b8b8b;
+
+        }
+
+        
+
+        .player-controls {
+
+            display: flex;
+
+            justify-content: center;
+
+            align-items: center;
+
+            margin: 25px 0;
+
+        }
+
+        
+
+        .play-btn {
+
+            background: linear-gradient(135deg, #8b0000 0%, #600 100%);
+
+            color: #000;
+
+            border: 2px solid #400;
+
+            border-radius: 50%;
+
+            width: 80px;
+
+            height: 80px;
+
+            font-size: 2rem;
+
+            cursor: pointer;
+
+            margin: 0 20px;
+
+            box-shadow: 0 0 15px rgba(139, 0, 0, 0.7);
+
+            transition: all 0.3s ease;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+        }
+
+        
+
+        .play-btn:hover {
+
+            transform: scale(1.05);
+
+            box-shadow: 0 0 25px rgba(139, 0, 0, 0.9);
+
+            color: #fff;
+
+        }
+
+        
+
+        .volume-control {
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            margin-top: 20px;
+
+        }
+
+        
+
+        .volume-slider {
+
+            width: 200px;
+
+            margin: 0 15px;
+
+            -webkit-appearance: none;
+
+            height: 6px;
+
+            border-radius: 3px;
+
+            background: #333;
+
+            outline: none;
+
+        }
+
+        
+
+        .volume-slider::-webkit-slider-thumb {
+
+            -webkit-appearance: none;
+
+            width: 20px;
+
+            height: 20px;
+
+            border-radius: 50%;
+
+            background: #8b0000;
+
+            cursor: pointer;
+
+            box-shadow: 0 0 5px #000;
+
+        }
+
+        
+
+        .volume-icon {
+
+            color: #8b0000;
+
+            font-size: 1.5rem;
+
+        }
+
+        
+
+        .metal-elements {
+
+            display: flex;
+
+            justify-content: space-around;
+
+            width: 100%;
+
+            margin-top: 30px;
+
+            opacity: 0.7;
+
+        }
+
+        
+
+        .metal-element {
+
+            font-size: 2rem;
+
+            color: #8b0000;
+
+            animation: pulse 2s infinite;
+
+        }
+
+        
+
+        @keyframes pulse {
+
+            0% { transform: scale(1); }
+
+            50% { transform: scale(1.1); }
+
+            100% { transform: scale(1); }
+
+        }
+
+        
+
+        .frequency {
+
+            margin-top: 20px;
+
+            font-size: 1.2rem;
+
+            color: #8b8b8b;
+
+            text-transform: uppercase;
+
+            letter-spacing: 2px;
+
+        }
+
+        
+
+        @media (max-width: 768px) {
+
+            .logo h1 {
+
+                font-size: 2.5rem;
+
+            }
+
+            
+
+            .logo h2 {
+
+                font-size: 1.4rem;
+
+            }
+
+            
+
+            .player {
+
+                padding: 20px;
+
+            }
+
+            
+
+            .play-btn {
+
+                width: 70px;
+
+                height: 70px;
+
+            }
+
+        }
+
+        
+
+        /* Efectos de sonido visuales */
+
+        .visualizer {
+
+            display: flex;
+
+            justify-content: center;
+
+            align-items: flex-end;
+
+            height: 60px;
+
+            margin-top: 20px;
+
+            gap: 3px;
+
+        }
+
+        
+
+        .bar {
+
+            width: 4px;
+
+            background: #8b0000;
+
+            border-radius: 2px;
+
+            height: 5px;
+
+            animation: visualizer 1.5s ease-in-out infinite;
+
+        }
+
+        
+
+        .bar:nth-child(2) { animation-delay: 0.2s; }
+
+        .bar:nth-child(3) { animation-delay: 0.4s; }
+
+        .bar:nth-child(4) { animation-delay: 0.6s; }
+
+        .bar:nth-child(5) { animation-delay: 0.8s; }
+
+        .bar:nth-child(6) { animation-delay: 1.0s; }
+
+        .bar:nth-child(7) { animation-delay: 1.2s; }
+
+        .bar:nth-child(8) { animation-delay: 1.4s; }
+
+        
+
+        @keyframes visualizer {
+
+            0%, 100% { height: 5px; }
+
+            50% { height: 40px; }
+
+        }
+
+        
+
+        /* Efecto de parpadeo para el texto */
+
+        .blink {
+
+            animation: blink 2s linear infinite;
+
+        }
+
+        
+
+        @keyframes blink {
+
+            0% { opacity: 1; }
+
+            50% { opacity: 0.5; }
+
+            100% { opacity: 1; }
+
+        }
+
+    </style>
+
+<style type="text/css">
+.grande { font-size: 60px; }
+</style>
+<script>
+// Escribir aqui el código Javascript
+</script>
+</head>
+
+<body>
+
+    <div class="container">
+
+        <div class="logo">
+
+            <!-- Logo como imagen inline SVG para mantener la estética -->
+
+            <svg viewBox="0 0 500 200" xmlns="http://www.w3.org/2000/svg">
+
+                <style>
+
+                    .det-text { fill: #8b0000; font-family: 'Metal Mania', cursive; font-size: 80px; font-weight: bold; filter: drop-shadow(0 0 5px #600); }
+
+                    .metal-text { fill: #c0c0c0; font-family: 'Metal Mania', cursive; font-size: 60px; font-weight: bold; }
+
+                    .gt-text { fill: #8b8b8b; font-family: 'Special Elite', cursive; font-size: 40px; }
+
+                </style>
+
+                <text x="50%" y="50%" text-anchor="middle" class="det-text">DETONACION</text>
+
+                <text x="50%" y="75%" text-anchor="middle" class="metal-text">METAL</text>
+
+                <text x="50%" y="95%" text-anchor="middle" class="gt-text">GUATEMALA</text>
+
+            </svg>
+
+        </div>
+
+        
+
+        <div class="player">
+
+            <div class="now-playing">
+
+                <h3>En Vivo</h3>
+
+                <div class="track-info">24 HORAS EN VIVO</div>
+
+                <div class="artist">DETOANCION METAL RADIO</div>
+
+            </div>
+
+            
+
+            <div class="visualizer">
+
+                <div class="bar" style="height: 29px;"></div>
+
+                <div class="bar" style="height: 15px;"></div>
+
+                <div class="bar" style="height: 34px;"></div>
+
+                <div class="bar" style="height: 36px;"></div>
+
+                <div class="bar" style="height: 20px;"></div>
+
+                <div class="bar" style="height: 11px;"></div>
+
+                <div class="bar" style="height: 24px;"></div>
+
+                <div class="bar" style="height: 26px;"></div>
+
+            </div>
+
+            
+
+            <div class="player-controls">
+
+                <button class="play-btn" id="playBtn">
+
+                    <i class="fas fa-play"></i>
+
+                </button>
+
+            </div>
+
+            
+
+            <div class="volume-control">
+
+                <span class="volume-icon"><i class="fas fa-volume-down"></i></span>
+
+                <input type="range" min="0" max="100" value="80" class="volume-slider" id="volumeSlider">
+
+                <span class="volume-icon"><i class="fas fa-volume-up"></i></span>
+
+            </div>
+
+            
+
+            <div class="frequency">
+
+                
+
+                
+
+               
+
+                Detonacion Metal Radio 
+
+            </div>
+
+        </div>
+
+        
+
+        <div class="metal-elements">
+
+            <div class="metal-element"><i class="fas fa-guitar"></i></div>
+
+            <div class="metal-element"><i class="fas fa-drum"></i></div>
+
+            <div class="metal-element"><i class="fas fa-microphone-alt"></i></div>
+
+        </div>
+
+    </div>
+
+    
+
+    <audio id="radioStream" preload="none">
+
+        <source src="https://stream.zeno.fm/qnmyysvdu68uv" type="audio/mpeg">
+
+    </audio>
+
+    
+
+    <script>
+
+        document.addEventListener('DOMContentLoaded', function() {
+
+            const audio = document.getElementById('radioStream');
+
+            const playBtn = document.getElementById('playBtn');
+
+            const volumeSlider = document.getElementById('volumeSlider');
+
+            const playIcon = playBtn.querySelector('i');
+
+            const trackInfo = document.querySelector('.track-info');
+
+            const artist = document.querySelector('.artist');
+
+            
+
+            // Lista de canciones de metal (simulada)
+
+            const metalSongs = [
+
+                { title: "METAL DE TODOS LOS TIEMPOS", artist: "PODER ONLINE" },
+
+                { title: "EMCENDIENDO LA LLAMA DEL METAL", artist: "24/7" },
+
+                { title: "24 HORAS EN VIVO", artist: "DETOANCION METAL RADIO" },
+
+                { title: "MUSICA NUEVA", artist: "CLASICOS DE TODOS LOS TIEMPOS" },
+
+                { title: "EVENTOS ", artist: "LANZAMIENTOS" },
+
+                { title: "SIGENOS EN NUESTRAS", artist: "REDES SOCIALES" },
+
+                { title: "DANOS TU OPINIÓN", artist: "detonacionmetal502@gmail.com" },
+
+                { title: "DETONANDO", artist: "TUS SENTIDOS" }
+
+            ];
+
+            
+
+            let isPlaying = false;
+
+            
+
+            // Función para cambiar la canción mostrada
+
+            function changeSong() {
+
+                const randomSong = metalSongs[Math.floor(Math.random() * metalSongs.length)];
+
+                trackInfo.textContent = randomSong.title;
+
+                artist.textContent = randomSong.artist;
+
+            }
+
+            
+
+            // Inicializar con una canción
+
+            changeSong();
+
+            
+
+            // Cambiar canción cada 30 segundos
+
+            setInterval(changeSong, 30000);
+
+            
+
+            playBtn.addEventListener('click', function() {
+
+                if (isPlaying) {
+
+                    audio.pause();
+
+                    playIcon.classList.remove('fa-pause');
+
+                    playIcon.classList.add('fa-play');
+
+                } else {
+
+                    audio.play().catch(e => {
+
+                        console.log("Error al reproducir: ", e);
+
+                        alert("Haz clic de nuevo para reproducir. Algunos navegadores requieren interacción del usuario.");
+
+                    });
+
+                    playIcon.classList.remove('fa-play');
+
+                    playIcon.classList.add('fa-pause');
+
+                }
+
+                isPlaying = !isPlaying;
+
+            });
+
+            
+
+            volumeSlider.addEventListener('input', function() {
+
+                audio.volume = this.value / 100;
+
+            });
+
+            
+
+            // Configurar el volumen inicial
+
+            audio.volume = 0.8;
+
+            
+
+            // Manejar la actualización del visualizador
+
+            const bars = document.querySelectorAll('.bar');
+
+            
+
+            function updateVisualizer() {
+
+                bars.forEach(bar => {
+
+                    const randomHeight = Math.floor(Math.random() * 40) + 5;
+
+                    bar.style.height = `${randomHeight}px`;
+
+                });
+
+            }
+
+            
+
+            setInterval(updateVisualizer, 100);
+
+        });
+
+    </script>
+
+
+
+
+</body></html>
